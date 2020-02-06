@@ -1,6 +1,6 @@
 <template>
   <div class="grid-wrapper">
-    <div class="loading" v-if="loading">{{ loading }}</div>
+    <LoadingSpinner v-if="loading"></LoadingSpinner>
     <div class="grid" v-else>
       <template v-show="comics && comics.length > 0 && comics[0] !== null">
         <div
@@ -21,6 +21,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
+
 export default {
   name: "ComicGrid",
   computed: {
@@ -35,6 +37,9 @@ export default {
   },
   created() {
     this.fetchComics();
+  },
+  components: {
+    LoadingSpinner
   }
 };
 </script>

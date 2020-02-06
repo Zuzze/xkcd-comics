@@ -7,7 +7,6 @@ let axios = Axios.create({ baseURL: process.env.BASE_URL });
 
 Vue.use(Vuex);
 
-// const _BASE_URL = "http://localhost:8080";
 const _CURRENT_COMIC_ENDPOINT = "/info.0.json";
 const _AMOUNT_OF_COMICS = 10;
 
@@ -93,10 +92,10 @@ export default new Vuex.Store({
         commit(mutations.START_LOADING);
         const { data } = await axios.get(`${_CURRENT_COMIC_ENDPOINT}`);
         commit(mutations.SET_CURRENT_COMIC, data);
+        commit(mutations.FINISH_LOADING);
       } catch (error) {
         commit(mutations.SET_CURRENT_COMIC_FAILED, error);
       }
-      commit(mutations.FINISH_LOADING);
     },
     /**
      * @description fetches comic by number from API
@@ -109,11 +108,12 @@ export default new Vuex.Store({
       try {
         commit(mutations.START_LOADING);
         const { data } = await axios.get(`${number}/info.0.json`);
+        console.log(data);
         commit(mutations.SELECT_COMIC, data);
+        commit(mutations.FINISH_LOADING);
       } catch (error) {
         commit(mutations.SELECT_COMIC_FAILED, error);
       }
-      commit(mutations.FINISH_LOADING);
     },
     /**
      * @description fetches last n commits from the API, where n = _AMOUNT_OF_COMICS
@@ -139,10 +139,10 @@ export default new Vuex.Store({
             res.map(r => r.data)
           );
         });
+        commit(mutations.FINISH_LOADING);
       } catch (error) {
         commit(mutations.SET_COMICS_FAILED, error);
       }
-      commit(mutations.FINISH_LOADING);
     },
 
     /**

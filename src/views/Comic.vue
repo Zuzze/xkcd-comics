@@ -1,26 +1,34 @@
 <template>
   <div>
-    <div class="loading" v-if="loading">{{ loading }}</div>
+    <LoadingSpinner v-if="loading"></LoadingSpinner>
     <div class="comic" v-else-if="selectedComic.num && !loading">
       <router-link class="back" to="/">&#60; Back</router-link>
+      <br />
       <h2>Comic #{{ selectedComic.num }}</h2>
+      <p>
+        Published
+        {{
+          `${selectedComic.year}/${selectedComic.month}/${selectedComic.day}`
+        }}
+      </p>
 
       <div class="nav-buttons">
         <router-link
           class="nav-button"
           v-if="selectedComic.num > 1"
           :to="'/' + (selectedComic.num - 1)"
-          >&#60; Previous comic</router-link
+          >&#60; Previous</router-link
         >
         <span v-else>This is the first comic</span>
         <router-link
           class="nav-button"
           v-if="!currentComic || selectedComic.num < currentComic.num"
           :to="'/' + (selectedComic.num + 1)"
-          >Next comic &#62;</router-link
+          >Next &#62;</router-link
         >
         <span v-else>This is the latest comic</span>
       </div>
+
       <h1>{{ selectedComic.title }}</h1>
       <img
         class="comic-img"
@@ -39,6 +47,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 /** @description A page to display a single comic
  * If user enters the page by clicking and image, comic data is already saved in store in `selectedComic`
@@ -68,6 +77,9 @@ export default {
     $route(to) {
       this.fetchComicByNumber(to.params.id);
     }
+  },
+  components: {
+    LoadingSpinner
   }
 };
 </script>
@@ -84,7 +96,7 @@ export default {
 }
 
 .comic-img {
-  max-width: 100%;
+  max-width: 95%;
   @include fade;
 }
 
@@ -107,5 +119,15 @@ a.nav-button {
 
 .comic-not-found {
   margin-top: 35vh;
+}
+
+@media screen and (max-width: 600px) {
+  .nav-buttons {
+    margin: 0;
+  }
+  a.nav-button {
+    margin: 0.5em;
+    padding: 0.5em;
+  }
 }
 </style>
