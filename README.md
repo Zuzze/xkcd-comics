@@ -41,6 +41,8 @@ The app uses vue-router in hash mode to navigate between front page `/` and sing
 
 # Project setup
 
+Download zip from [https://github.com/Zuzze/xkcd-comics](https://github.com/Zuzze/xkcd-comics) by pressing green "Clone or download" button or clone in terminal with next commands
+
 ```
 git clone https://github.com/Zuzze/xkcd-comics.git
 ```
@@ -49,11 +51,7 @@ git clone https://github.com/Zuzze/xkcd-comics.git
 cd xkcd-comics
 ```
 
-```
-yarn install
-```
-
-### run with `start.sh`script
+### start with `start.sh`script
 
 Make the script executable
 
@@ -67,15 +65,17 @@ Run the script
 ./start.sh
 ```
 
-### You can also run the app with (compliles and hot-reloads for development)
+This install dependencies and starts the app in browser.
+
+### Alternatively you can also run the app with next commands
+
+```
+yarn install
+```
 
 ```
 yarn serve
 ```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Compiles and minifies for production
 
@@ -88,3 +88,7 @@ yarn build
 ```
 yarn lint
 ```
+
+### Customize configuration
+
+See [Configuration Reference](https://cli.vuejs.org/config/).
