@@ -53,11 +53,29 @@ cd xkcd-comics
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### run with `start.sh`script
+
+Make the script executable
+
+```
+chmod +x start.sh
+```
+
+Run the script
+
+```
+./start.sh
+```
+
+### You can also run the app with (compliles and hot-reloads for development)
 
 ```
 yarn serve
 ```
+
+### Customize configuration
+
+See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Compiles and minifies for production
 
@@ -70,13 +88,3 @@ yarn build
 ```
 yarn lint
 ```
-
-### run with `start.sh`script
-
-- Go to the root of this file
-- Make the script executable with command `chmod +x start.sh`.
-- Run the script using `./start.sh`.
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
