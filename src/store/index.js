@@ -63,6 +63,7 @@ export default new Vuex.Store({
     },
     [mutations.SET_CURRENT_COMIC_FAILED](state, err) {
       console.error(err);
+      state.currentComic = {};
       state.loading = false;
     },
     [mutations.SET_PREVIOUS_COMICS](state, comics) {
@@ -72,13 +73,15 @@ export default new Vuex.Store({
     },
     [mutations.SET_PREVIOUS_COMICS_FAILED](err, state) {
       state.loading = false;
+      state.previousComics = [];
       console.error(err);
     },
     [mutations.SELECT_COMIC](state, comic) {
       state.selectedComic = comic;
     },
-    [mutations.SELECT_COMIC_FAILED](err, state) {
+    [mutations.SELECT_COMIC_FAILED](state, err) {
       state.loading = false;
+      state.selectedComic = {};
       console.error(err);
     }
   },
@@ -108,7 +111,6 @@ export default new Vuex.Store({
       try {
         commit(mutations.START_LOADING);
         const { data } = await axios.get(`${number}/info.0.json`);
-        console.log(data);
         commit(mutations.SELECT_COMIC, data);
         commit(mutations.FINISH_LOADING);
       } catch (error) {

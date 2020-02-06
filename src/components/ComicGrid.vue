@@ -1,8 +1,8 @@
 <template>
   <div class="grid-wrapper">
     <LoadingSpinner v-if="loading"></LoadingSpinner>
-    <div class="grid" v-else>
-      <template v-show="comics && comics.length > 0 && comics[0] !== null">
+    <div class="grid" v-else-if="comics && comics.length > 0">
+      <template>
         <div
           class="comic"
           v-for="comic in comics"
@@ -36,6 +36,7 @@ export default {
     }
   },
   created() {
+    // upload latest comics always when page entered
     this.fetchComics();
   },
   components: {
@@ -73,7 +74,7 @@ export default {
 
 .comic-thumbnail {
   margin: 0.5em;
-  padding: 0.5em;
+  padding: 0 0.5em;
   border: solid 2px transparent;
   border-radius: 5px;
 

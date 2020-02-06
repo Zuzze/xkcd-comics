@@ -1,6 +1,7 @@
 <template>
   <div>
     <LoadingSpinner v-if="loading"></LoadingSpinner>
+
     <div class="comic" v-else-if="selectedComic.num && !loading">
       <router-link class="back" to="/">&#60; Back</router-link>
       <br />

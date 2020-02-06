@@ -1,4 +1,4 @@
-# xkcd Comics App
+# :nerd_face: xkcd Comics App
 
 This app displays last 10 xkcd comics fetched through API and enlarges them once clicked.
 
@@ -27,9 +27,9 @@ example response body for `/614`:
 }
 ```
 
-**Note!** Current API does not support returning multiple comics at once, only one at a time. If we would own the API and multiple comics would be wanted to fetch at once, it might make sense to add new endpoint to API that returns n last comics at once in one API call instead of concurrently requesting them separately on the client.
+**Note** Current API does not support returning multiple comics at once, only one at a time. If we would own the API and multiple comics would be wanted to fetch at once, it might make sense to add new endpoint to API that returns n last comics at once in one API call instead of concurrently requesting them separately on the client.
 
-To figure out the `num`s (IDs) of last 10 comics, you have to first request the `num` (ID) of current comic. After this previous 9 comics can be requested. Comics will be displayed once all 10 comics have been loaded.
+To figure out the `num`s (IDs) of last 10 comics, you have to first request the `num` (ID) of current comic. After this previous 9 comics can be requested. Comics will be displayed once all 10 comics have been loaded. Loading state is observed in store and loading spinner is displayed during loading for the user.
 
 ### axios
 

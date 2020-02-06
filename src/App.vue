@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{'sulphur': isSulphurFontSelected}">
+  <div id="app" :class="{ ' sulphur ': isSulphurFontSelected }">
     <div class="font-select">
       <input
         type="checkbox"
