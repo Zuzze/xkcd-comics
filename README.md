@@ -42,6 +42,14 @@ The app uses vue-router in hash mode to navigate between front page `/` and sing
 # Project setup
 
 ```
+git clone https://github.com/Zuzze/xkcd-comics.git
+```
+
+```
+cd xkcd-comics
+```
+
+```
 yarn install
 ```
 
