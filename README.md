@@ -49,11 +49,7 @@ git clone https://github.com/Zuzze/xkcd-comics.git
 cd xkcd-comics
 ```
 
-```
-yarn install
-```
-
-### run with `start.sh`script
+### start with `start.sh`script
 
 Make the script executable
 
@@ -67,15 +63,15 @@ Run the script
 ./start.sh
 ```
 
-### You can also run the app with (compliles and hot-reloads for development)
+### OR alternatively you can also run the app with next commands
+
+```
+yarn install
+```
 
 ```
 yarn serve
 ```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Compiles and minifies for production
 
@@ -88,3 +84,7 @@ yarn build
 ```
 yarn lint
 ```
+
+### Customize configuration
+
+See [Configuration Reference](https://cli.vuejs.org/config/).
