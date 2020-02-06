@@ -10,17 +10,6 @@ Vue.use(Vuex);
 const _CURRENT_COMIC_ENDPOINT = "/info.0.json";
 const _AMOUNT_OF_COMICS = 10;
 
-/** @description generates API requests for _AMOUNT_OF_COMICS latest comics  */
-function generateComicPromises(currentComicNumber) {
-  const previousComics = [];
-  // start from 1 as current comic is already fetchhed
-  for (let i = 1; i < _AMOUNT_OF_COMICS; i++) {
-    const url = `/${currentComicNumber - i}/info.0.json`;
-    previousComics.push(axios.get(url));
-  }
-  return previousComics;
-}
-
 export default new Vuex.Store({
   // STATE
   state: {
@@ -92,10 +81,8 @@ export default new Vuex.Store({
     /** @description fetches the latest comic from API */
     async fetchCurrentComic({ commit }) {
       try {
-        commit(mutations.START_LOADING);
         const { data } = await axios.get(`${_CURRENT_COMIC_ENDPOINT}`);
         commit(mutations.SET_CURRENT_COMIC, data);
-        commit(mutations.FINISH_LOADING);
       } catch (error) {
         commit(mutations.SET_CURRENT_COMIC_FAILED, error);
       }
@@ -118,33 +105,53 @@ export default new Vuex.Store({
       }
     },
     /**
-     * @description fetches last n commits from the API, where n = _AMOUNT_OF_COMICS
-     * */
-    async fetchComics({ commit, dispatch, state }) {
-      try {
-        commit(mutations.START_LOADING);
-
-        // first wait that we get current commit to see what is the current comic number
-        await dispatch("fetchCurrentComic");
-
-        // when we know the current comic number, we can request previous comic numbers by substracting from current comic number.
-        const previousComicPromises = generateComicPromises(
-          state.currentComic.num
+     * @description fetches n previous comics from API
+     */
+    fetchPreviousComics({ commit, state }) {
+      // fetch previous only if current comic fetch was successful
+      if (!state.currentComic.num) {
+        commit(
+          mutations.SET_PREVIOUS_COMICS_FAILED,
+          "Could not fetch previous comics because current comic number was not found"
         );
+      }
 
-        // The Promise.all() method returns a single Promise that fulfills when all of the promises passed.
-        // Other options could be to use axios.all() but apparently it is not supported on IE so native Promise is safer choice here
-        Promise.all(previousComicPromises).then(res => {
+      // generate requests for all required comics
+      const previousComicPromises = [];
+      // start from 1 as current comic is already fetchhed
+      for (let i = 1; i < _AMOUNT_OF_COMICS; i++) {
+        const url = `/${state.currentComic.num - i}/info.0.json`;
+        previousComicPromises.push(axios.get(url));
+      }
+
+      // The Promise.all() method returns a single Promise that fulfills when all of the promises passed.
+      // Other options could be to use axios.all() but apparently it is not supported on IE so native Promise is safer choice here
+      Promise.all(previousComicPromises)
+        .then(res => {
           commit(
             mutations.SET_PREVIOUS_COMICS,
             // select only data from successful response
             res.map(r => r.data)
           );
+        })
+        .catch(err => {
+          commit(mutations.SET_PREVIOUS_COMICS_FAILED, err);
         });
-        commit(mutations.FINISH_LOADING);
-      } catch (error) {
-        commit(mutations.SET_COMICS_FAILED, error);
-      }
+    },
+    /**
+     * @description fetches last n commits from the API, where n = _AMOUNT_OF_COMICS
+     * */
+    async fetchComics({ commit, dispatch }) {
+      // errors are handled inside functions so no need for try catch here anymore
+      commit(mutations.START_LOADING);
+
+      // first wait that we get current commit to see what is the current comic number
+      await dispatch("fetchCurrentComic");
+
+      // when we know the current comic number, we can request previous comic numbers by substracting from current comic number.
+      await dispatch("fetchPreviousComics");
+
+      commit(mutations.FINISH_LOADING);
     },
 
     /**
